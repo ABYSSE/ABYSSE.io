@@ -1,6 +1,9 @@
 <?php
 
 return [
+
+    'lang'              => 'fr',
+
     'theme_path'        => base_path().'/public/themes/',
     'theme'             => 'ocean',
 
@@ -11,4 +14,5 @@ return [
         'lost_password' => '',
         'login'         => ''
     ]
+
 ];

@@ -11,6 +11,7 @@ class RouteServiceProvider extends ServiceProvider {
 	 * @var array
 	 */
 	protected $scan = [
+		'App\Http\Controllers\HomeController',
 		'App\Http\Controllers\Auth\AuthController',
 		'App\Http\Controllers\Auth\PasswordController',
 	];
@@ -25,6 +26,7 @@ class RouteServiceProvider extends ServiceProvider {
 		'auth.basic' => 'App\Http\Middleware\AuthenticatedWithBasicAuth',
 		'csrf' => 'App\Http\Middleware\CsrfTokenIsValid',
 		'guest' => 'App\Http\Middleware\IsGuest',
+        'admin' => 'App\Http\Middleware\IsAdministrator'
 	];
 
 	/**

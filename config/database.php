@@ -55,8 +55,8 @@ return [
 		'mysql' => [
 			'driver'    => 'mysql',
 			'host'      => 'localhost',
-			'database'  => 'forge',
-			'username'  => 'forge',
+			'database'  => 'abysse',
+			'username'  => 'abysse',
 			'password'  => '',
 			'charset'   => 'utf8',
 			'collation' => 'utf8_unicode_ci',
@@ -66,8 +66,8 @@ return [
 		'pgsql' => [
 			'driver'   => 'pgsql',
 			'host'     => 'localhost',
-			'database' => 'forge',
-			'username' => 'forge',
+			'database' => 'abysse',
+			'username' => 'abysse',
 			'password' => '',
 			'charset'  => 'utf8',
 			'prefix'   => '',
