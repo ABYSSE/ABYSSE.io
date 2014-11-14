@@ -2,9 +2,12 @@
 
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Redirect;
+use App\Models\Category;
 use App\Models\Project;
 use App\Libraries\Facades\Tree;
 use App\Http\Requests\CreateProjectRequest;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\URL;
 
 class ProjectController extends Controller {
 
@@ -22,7 +25,7 @@ class ProjectController extends Controller {
 	 */
 	public function index()
 	{
-        $projects = $this->project->get();
+        $projects = $this->project->all();
 
 		return view('projects.index', compact('projects'));
 	}
@@ -34,7 +37,7 @@ class ProjectController extends Controller {
 	 */
 	public function create()
 	{
-        $parentSelect = Tree::toHTMLSelect(Tree::toArray($this->project->get()->toArray()));
+        $parentSelect = Tree::toHTMLSelect(Tree::toArray($this->project->all()->toArray()));
 
 		return view('projects.create', compact('parentSelect'));
 	}
@@ -50,7 +53,7 @@ class ProjectController extends Controller {
 	{
         $project->create($request->all());
 
-        redirect()->route('project.show', ['id' => $project->id]);
+        return redirect()->route('project.show', ['id' => $project->id]);
 	}
 
 	/**
@@ -61,7 +64,10 @@ class ProjectController extends Controller {
 	 */
 	public function show(Project $project)
 	{
-        return view('projects.show', compact('project'));
+        $children = $project->where('parent_id', $project->id)->get();
+        $hasChildren = !empty($children->toArray());
+
+        return view('projects.show', compact('project', 'children', 'hasChildren'));
 	}
 
 	/**
@@ -72,7 +78,7 @@ class ProjectController extends Controller {
 	 */
 	public function edit(Project $project)
 	{
-        $parentSelect = Tree::toHTMLSelect(Tree::toArray($project->get()->toArray(), 0, [$project->id]), $project->parent_id);
+        $parentSelect = Tree::toHTMLSelect(Tree::toArray($project->all()->toArray(), 0, [$project->id]), $project->parent_id);
 
 		return view('projects.edit', compact('project', 'parentSelect'));
 	}
@@ -87,12 +93,12 @@ class ProjectController extends Controller {
 	public function update(Project $project, CreateProjectRequest $request)
 	{
         if ($request->input('parent_id') != $project->parent_id)
-            if (!empty(Tree::toArray($project->get()->toArray())[$project->id - 1]['children']))
+            if (!empty(Tree::toArray($project->all()->toArray())[$project->id - 1]['children']))
                 return Redirect::route('project.edit', ['id' => $project->id]);
 
 		$project->fill($request->all())->save();
 
-        return redirect()->route('project.edit', ['id' => $project->id]);
+        return redirect()->route('project.show', ['id' => $project->id]);
 	}
 
 	/**
@@ -103,9 +109,23 @@ class ProjectController extends Controller {
 	 */
 	public function destroy(Project $project)
     {
+        $project->where('parent_id', $project->id)->delete();
         $project->delete();
 
         return redirect()->route('project.index');
+    }
+
+    public function categories(Project $project)
+    {
+        return view('projects.categories', compact('project'));
+    }
+
+    public function update_categories(Project $project, Request $request)
+    {
+        $categories = $request->input('categories');
+        $project->categories()->sync(!empty($categories) ? $categories : []);
+
+        return redirect(URL::previous());
     }
 
 }

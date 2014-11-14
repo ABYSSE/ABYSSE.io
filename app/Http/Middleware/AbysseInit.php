@@ -30,12 +30,6 @@ class AbysseInit implements Middleware {
         View::addLocation(Config::get('abysse.theme_path') . Config::get('abysse.theme') . '/views');
 
         /**
-         * Generate breadcrumbs
-         */
-        $breadcrumb = new Breadcrumb();
-        View::share('breadcrumb', $breadcrumb->build());
-
-        /**
          * Root projects list for the sidebar
          */
         View::share('projects_list', Project::where('parent_id', 0)->get());

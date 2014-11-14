@@ -23,7 +23,7 @@
                 <div class="page-content">
 
                     <!-- Header Bar -->
-                    @include('headerbar')
+                    @include('header_bar')
 
                     <!-- Main Content -->
                     @yield('content')

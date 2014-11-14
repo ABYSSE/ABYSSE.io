@@ -31,8 +31,6 @@ class AuthController extends Controller {
 	/**
 	 * Show the application registration form.
 	 *
-	 * @Get("auth/register")
-	 *
 	 * @return Response
 	 */
 	public function showRegistrationForm()
@@ -42,8 +40,6 @@ class AuthController extends Controller {
 
 	/**
 	 * Handle a registration request for the application.
-	 *
-	 * @Post("auth/register")
 	 *
 	 * @param  RegisterRequest  $request
 	 * @return Response

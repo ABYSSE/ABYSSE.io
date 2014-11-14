@@ -1,7 +1,7 @@
 @extends('master')
 
 @section('pageTitle')
-    @lang('abysse.projects')
+    @lang('abysse.new_category')
 @stop
 
 @section('content')
@@ -10,13 +10,15 @@
         <div class="col-lg-12">
             <div class="widget">
                 <div class="widget-title">
-                    @lang('abysse.projects')
+                    @lang('abysse.new_category')
                 </div>
 
                 <div class="widget-body">
-                    @foreach ($projects as $project)
-                        <h3>{{ $project->name }}</h3>
-                    @endforeach
+                    {!! Form::open(['route' => 'category.store']) !!}
+                        @include('categories.form')
+
+                        <input name="from_url" type="hidden" value="{{ $from_url }}">
+                    {!! Form::close() !!}
                 </div>
             </div>
         </div>

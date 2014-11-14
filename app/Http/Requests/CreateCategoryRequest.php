@@ -2,7 +2,7 @@
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CreateProjectRequest extends FormRequest {
+class CreateCategoryRequest extends FormRequest {
 
 	/**
 	 * Get the validation rules that apply to the request.
@@ -13,9 +13,7 @@ class CreateProjectRequest extends FormRequest {
 	{
 		return [
 
-            'name' => 'required',
-            'parent_id' => 'required',
-            'description' => 'required',
+            'name' => 'required|unique:categories'
 
 		];
 	}
