@@ -11,7 +11,8 @@ class Kernel extends ConsoleKernel {
 	 * @var array
 	 */
 	protected $commands = [
-        'App\Console\Commands\AbysseInstallCommand'
+		'App\Console\Commands\InspireCommand',
+		'App\Console\Commands\AbysseInstallCommand'
 	];
 
 	/**
@@ -29,7 +30,9 @@ class Kernel extends ConsoleKernel {
 		}
 		catch (Exception $e)
 		{
-			$output->writeln((string) $e);
+			$this->reportException($e);
+
+			$this->renderException($output, $e);
 
 			return 1;
 		}
